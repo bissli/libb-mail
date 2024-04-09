@@ -3,7 +3,6 @@ import contextlib
 import datetime
 import json
 import logging
-import mimetypes
 import os
 import re
 from email.header import decode_header
@@ -13,6 +12,8 @@ from email.mime.text import MIMEText
 import mailchimp_transactional as MailchimpTransactional
 import requests
 from mailchimp_transactional.api_client import ApiClientError
+
+from libb import guess_type
 
 __all__ = [
     'send_mail',
@@ -350,8 +351,8 @@ def create_attachment(path=None, data=None, name=None, maintype='application', s
     content==string: the content encoded as a base64-encoded string
     """
     if path:
-        ctype, encoding = mimetypes.guess_type(path)
-        if ctype is not None and encoding is not None:
+        ctype = guess_type(path)
+        if ctype is not None:
             maintype, subtype = ctype.split('/', 1)
         with open(path, 'rb') as fp:
             content = base64.b64encode(fp.read()).decode('ascii')
