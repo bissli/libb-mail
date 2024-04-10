@@ -13,6 +13,7 @@ import mailchimp_transactional as MailchimpTransactional
 import requests
 from mailchimp_transactional.api_client import ApiClientError
 
+from mail import config
 from libb import guess_type
 
 __all__ = [
@@ -253,7 +254,6 @@ def send_mail(*args, **kwargs):
     - keyword sets subtype (defaults to plaintext)
     - keywords set cc, bcc, attachments
     """
-    from mail import config
     if len(args) == 4:
         sender, recipients, subject, body = args
     elif len(args) == 3:
@@ -276,7 +276,6 @@ def send_mail(*args, **kwargs):
         bare usernames, instead we have to use full SMTP
         names (with @<domain>.com at the end).
         """
-        from mail import config
         if not addr:
             return addr
         recips = addr[:]
@@ -367,7 +366,6 @@ def call_mandrill_api(endpoint, data):
 
     FULL API Docs: https://mandrillapp.com/api/docs/
     """
-    from mail import config
     url = f'{config.mandrill.url}/{endpoint}'
     r = requests.post(url, data=json.dumps(data))
     return json.loads(r.text)
@@ -381,7 +379,6 @@ def get_mail_status(email_from=None, date_from=None, date_to=None, limit=1000, q
 
     RETURNS a list of (email_address, delivery status, timesent)
     """
-    from mail import config
     endpoint = 'messages/search.json'
     data = {
         'key': config.mandrill.apikey,
@@ -401,7 +398,6 @@ def get_mail_status(email_from=None, date_from=None, date_to=None, limit=1000, q
 
 if __name__ == '__main__':
     __import__('doctest').testmod(optionflags=4 | 8 | 32)
-    import config
     send_mail(
         config.mail.fromemail,
         [config.mail.adminemail],
