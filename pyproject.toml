@@ -11,7 +11,7 @@ python = "~3.11"
 
 mailchimp-transactional = { version = "^1.0.56" }
 
-libb-util = { git = "https://github.com/bissli/libb-util" }
+libb-util = { git = "https://github.com/bissli/libb-util", rev = "master" }
 
 # == test
 asserts = { version = "*", optional = true }
@@ -19,7 +19,7 @@ pytest = { version = "*", optional = true }
 pytest-mock = { version = "*", optional = true }
 pytest-runner = { version = "*", optional = true }
 wrapt = { version = "*", optional = true }
-pdbpp = { git = "https://github.com/pdbpp/pdbpp.git", optional = true }
+pdbpp = { git = "https://github.com/pdbpp/pdbpp.git", optional = true, rev = "master" }
 
 [tool.poetry.extras]
 test = [
