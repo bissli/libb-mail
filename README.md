@@ -1,4 +1,4 @@
-libb-ftp
+libb-mail
 ========
 
 ENVIRONMENTAL VARIABLES
