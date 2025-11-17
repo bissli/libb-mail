@@ -13,8 +13,8 @@ import mailchimp_transactional as MailchimpTransactional
 import requests
 from mailchimp_transactional.api_client import ApiClientError
 
-from mail import config
 from libb import guess_type
+from mail import config
 
 __all__ = [
     'send_mail',
@@ -203,10 +203,7 @@ class MailClient:
 
     def parse_attachment_filenames(self, email):
         """Parse just the filenames of any attachements by walking through email"""
-        filenames = []
-        for part in email.walk():
-            if part.get_filename() is not None:
-                filenames.append(part.get_filename())
+        filenames = [part.get_filename() for part in email.walk() if part.get_filename() is not None]
         return '; '.join(filenames) if filenames else None
 
     def parse_email(self, email, decode=False):
@@ -269,6 +266,7 @@ def send_mail(*args, **kwargs):
     cclist = kwargs.get('cclist', [])
     bcclist = kwargs.get('bcclist', [])
     attachments = kwargs.get('attachments', [])
+    inline_images = kwargs.get('inline_images', [])
     domain_only = kwargs.get('domain_only', True)
 
     def resolve_recipients(addr):
@@ -309,6 +307,20 @@ def send_mail(*args, **kwargs):
         else:
             prepared = create_attachment(attachment)
         msg['attachments'].extend(prepared)
+
+    for image in inline_images:
+        if 'images' not in msg:
+            msg['images'] = []
+        if isinstance(image, dict):
+            content = base64.b64encode(image['data']).decode('ascii')
+            mime_type = f"{image['maintype']}/{image['subtype']}"
+            msg['images'].append({
+                'type': mime_type,
+                'name': image['name'],
+                'content': content
+                })
+        else:
+            logger.warning(f'Inline image must be a dict, skipping: {type(image)}')
 
     if priority != 'Normal':
         msg['important'] = True
