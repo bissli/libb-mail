@@ -11,7 +11,7 @@ python = "^3.9"
 
 mailchimp-transactional = { version = "^1.0.56" }
 
-libb-util = { git = "https://github.com/bissli/libb-util" }
+libb-util = "*"
 
 # == test
 asserts = { version = "*", optional = true }
