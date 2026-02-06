@@ -9,7 +9,7 @@ packages = [{ include = "mail", from = "src" }]
 [tool.poetry.dependencies]
 python = "^3.9"
 
-mailchimp-transactional = { version = "^1.0.56" }
+mailchimp-transactional = "1.2.0"
 
 libb-util = "*"
 
