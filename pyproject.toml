@@ -13,6 +13,8 @@ mailchimp-transactional = "1.2.0"
 
 libb-util = "*"
 
+boto3 = { version = "*", optional = true }
+
 # == test
 asserts = { version = "*", optional = true }
 pytest = { version = "*", optional = true }
@@ -21,12 +23,14 @@ pytest-runner = { version = "*", optional = true }
 wrapt = { version = "*", optional = true }
 
 [tool.poetry.extras]
+ses = ["boto3"]
 test = [
   "asserts",
   "pytest",
   "pytest-mock",
   "pytest-runner",
   "wrapt",
+  "boto3",
 ]
 
 [build-system]
