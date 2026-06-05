@@ -15,13 +15,6 @@ import mailchimp_transactional as MailchimpTransactional
 import requests
 from mailchimp_transactional.api_client import ApiClientError
 
-try:
-    import boto3
-    from botocore.exceptions import ClientError as BotoClientError
-except ImportError:
-    boto3 = None
-    BotoClientError = None
-
 import pathlib
 
 from libb import guess_type
@@ -495,7 +488,9 @@ def _build_ses_mime(msg):
 def _send_via_ses(msg):
     """Send a canonical message through AWS SES. Returns a result dict.
     """
-    if boto3 is None:
+    try:
+        import boto3
+    except ImportError:
         raise ImportError(
             "SES backend requires the 'ses' extra: "
             'pip install libb-mail[ses]')
