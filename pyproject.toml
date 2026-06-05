@@ -2,7 +2,7 @@
 name = "libb-mail"
 version = "0.1.0"
 description = ""
-authors = ["bissli <bissli@xyz.com>"]
+authors = ["bissli <bissli@xyz.org>"]
 readme = "README.md"
 packages = [{ include = "mail", from = "src" }]
 
